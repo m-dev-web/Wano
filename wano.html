@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مملكة وانو ⛩</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --red:#DC2626;--red2:#991B1B;--gold:#F59E0B;--gold2:#D97706;
+  --dark:#050205;--card:#0D0808;--card2:#120A0A;
+  --border:#2A1010;--border2:#3D1818;
+  --text:#E2E8F0;--muted:#64748B;--dim:#94A3B8;
+}
+html,body{min-height:100vh;background:var(--dark);font-family:'Cairo',sans-serif;direction:rtl;overflow-x:hidden;}
+
+/* ===== CANVAS ===== */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+/* ===== AMBIENT ===== */
+.ambient{position:fixed;pointer-events:none;z-index:0;}
+.amb1{top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;
+  background:radial-gradient(ellipse,rgba(220,38,38,0.07) 0%,transparent 65%);
+  animation:ambPulse 6s ease-in-out infinite;}
+.amb2{bottom:-100px;right:-100px;width:400px;height:400px;
+  background:radial-gradient(ellipse,rgba(245,158,11,0.04) 0%,transparent 65%);
+  animation:ambPulse 8s ease-in-out infinite reverse;}
+@keyframes ambPulse{0%,100%{opacity:0.6;}50%{opacity:1;}}
+
+/* ===== WRAP ===== */
+.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 0 40px;}
+
+/* ===== HERO ===== */
+.hero{text-align:center;padding:50px 20px 30px;position:relative;}
+.hero-eyebrow{font-size:10px;letter-spacing:6px;color:var(--red);opacity:0.8;margin-bottom:16px;animation:fadeDown 0.8s ease both;}
+.hero-gate{
+  width:90px;height:90px;margin:0 auto 16px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(220,38,38,0.2) 0%,rgba(0,0,0,0) 70%);
+  border:1px solid rgba(220,38,38,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:52px;
+  animation:gatePulse 3s ease-in-out infinite, fadeDown 0.8s 0.1s ease both;
+  position:relative;
+}
+.hero-gate::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px solid rgba(220,38,38,0.1);
+  animation:ringExpand 3s ease-in-out infinite;
+}
+.hero-gate::after{
+  content:'';position:absolute;inset:-16px;border-radius:50%;
+  border:1px solid rgba(220,38,38,0.05);
+  animation:ringExpand 3s ease-in-out infinite 0.5s;
+}
+@keyframes gatePulse{
+  0%,100%{filter:drop-shadow(0 0 18px rgba(220,38,38,0.4));}
+  50%{filter:drop-shadow(0 0 40px rgba(220,38,38,0.75));}
+}
+@keyframes ringExpand{
+  0%,100%{transform:scale(1);opacity:0.6;}
+  50%{transform:scale(1.05);opacity:1;}
+}
+.hero-title{font-size:32px;font-weight:900;color:#fff;letter-spacing:8px;
+  text-shadow:0 0 40px rgba(220,38,38,0.35);
+  animation:fadeDown 0.8s 0.2s ease both;}
+.hero-en{font-size:10px;color:var(--muted);letter-spacing:4px;margin-top:6px;animation:fadeDown 0.8s 0.3s ease both;}
+.hero-badges{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;animation:fadeDown 0.8s 0.4s ease both;}
+.hbadge{
+  padding:4px 14px;border-radius:20px;font-size:10px;letter-spacing:1px;
+  border:1px solid rgba(220,38,38,0.25);
+  color:var(--red);background:rgba(220,38,38,0.06);
+}
+.hero-div{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;animation:fadeDown 0.8s 0.5s ease both;}
+.hdline{height:1px;width:70px;background:linear-gradient(90deg,transparent,rgba(220,38,38,0.5));}
+.hdline.r{background:linear-gradient(90deg,rgba(220,38,38,0.5),transparent);}
+.hdicon{color:var(--red);font-size:13px;}
+
+/* learn btn */
+.learn-wrap{display:flex;justify-content:center;padding:0 16px 6px;animation:fadeUp 0.8s 0.6s ease both;}
+.learn-btn{
+  display:flex;align-items:center;gap:8px;width:100%;
+  padding:12px 20px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(220,38,38,0.08));
+  border:1px solid rgba(245,158,11,0.25);
+  color:var(--gold);font-size:13px;font-weight:700;font-family:'Cairo',sans-serif;
+  cursor:pointer;transition:all 0.25s;justify-content:center;
+}
+.learn-btn:hover{background:linear-gradient(135deg,rgba(245,158,11,0.18),rgba(220,38,38,0.14));transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,158,11,0.1);}
+.learn-btn-icon{font-size:18px;}
+
+/* ===== TABS ===== */
+.tabs{
+  display:flex;gap:6px;padding:10px 16px 0;
+  overflow-x:auto;scrollbar-width:none;
+  animation:fadeUp 0.8s 0.5s ease both;
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{
+  padding:7px 16px;border-radius:20px;
+  border:1px solid var(--border);background:var(--card);
+  color:var(--muted);font-size:11px;cursor:pointer;
+  transition:all 0.2s;font-family:'Cairo',sans-serif;white-space:nowrap;flex-shrink:0;
+}
+.tab:hover{border-color:rgba(220,38,38,0.4);color:rgba(220,38,38,0.8);}
+.tab.active{background:rgba(220,38,38,0.12);border-color:var(--red);color:var(--red);font-weight:700;}
+
+/* ===== SECTIONS ===== */
+.sec{display:none;padding:20px 16px 10px;animation:fadeUp 0.4s ease both;}
+.sec.active{display:block;}
+
+.sec-head{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;color:var(--dim);
+  margin-bottom:14px;
+}
+.sec-head::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(220,38,38,0.3),transparent);}
+
+.gbar{height:1px;background:linear-gradient(90deg,transparent,rgba(220,38,38,0.25),transparent);margin:4px 0 18px;}
+
+/* ===== RANK TIERS ===== */
+.tier-label{
+  display:flex;align-items:center;gap:8px;
+  font-size:9px;letter-spacing:3px;color:var(--gold);
+  margin:16px 0 8px;
+}
+.tier-label::before,.tier-label::after{content:'';flex:1;height:1px;background:rgba(245,158,11,0.15);}
+
+.ranks{display:flex;flex-direction:column;gap:5px;}
+.rank-row{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px;
+  position:relative;overflow:hidden;transition:all 0.2s;
+}
+.rank-row::before{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;border-radius:0 10px 10px 0;}
+.rank-row:hover{border-color:var(--border2);transform:translateX(-3px);}
+.ri{font-size:20px;min-width:32px;text-align:center;}
+.rinfo{flex:1;}
+.rname{font-size:13px;font-weight:700;color:var(--text);}
+.rholder{font-size:11px;color:var(--muted);margin-top:1px;}
+.rtag{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+.tag-imp{background:rgba(245,158,11,0.1);color:#F59E0B;border:1px solid rgba(245,158,11,0.2);}
+.tag-fnd{background:rgba(220,38,38,0.1);color:#DC2626;border:1px solid rgba(220,38,38,0.2);}
+.tag-arm{background:rgba(180,83,9,0.1);color:#D97706;border:1px solid rgba(180,83,9,0.2);}
+.rdesc{font-size:9px;color:#475569;margin-top:2px;text-align:left;}
+
+/* color bars */
+.c-emperor::before{background:linear-gradient(180deg,#F59E0B,#DC2626);}
+.c-vicemp::before{background:#F59E0B;}
+.c-founder::before{background:#E11D48;}
+.c-vfound::before{background:#BE123C;}
+.c-marquis::before{background:#9F1239;}
+.c-vmarq::before{background:#881337;}
+.c-advisor::before{background:#6B21A8;}
+.c-prince::before{background:#D97706;}
+.c-lowa::before{background:#B45309;}
+.c-aqid::before{background:#92400E;}
+.c-naqib::before{background:#78350F;}
+.c-jundi::before{background:#451A03;}
+
+/* army box */
+.army-box{
+  background:var(--card);border:1px solid var(--border);
+  border-right:3px solid var(--gold);border-radius:10px;
+  padding:12px;margin-bottom:14px;
+  font-size:11px;color:var(--dim);line-height:1.8;
+}
+.army-box strong{color:var(--gold);}
+
+/* ===== DUCHIES ===== */
+.duchies{display:flex;flex-direction:column;gap:12px;}
+.duchy{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:all 0.25s;
+  animation:fadeUp 0.5s ease both;
+}
+.duchy:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,0.4);}
+.duchy-top{display:flex;align-items:center;gap:12px;padding:14px;}
+.duchy-icon{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.duchy-info{flex:1;}
+.duchy-name{font-size:15px;font-weight:900;color:#fff;}
+.duchy-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.duchy-leads{display:flex;gap:8px;padding:0 14px 10px;flex-wrap:wrap;}
+.dlead{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(0,0,0,0.3);border-radius:8px;padding:5px 10px;font-size:10px;
+}
+.dlead-role{color:var(--muted);}
+.dlead-name{color:var(--text);font-weight:700;}
+.duchy-guilds-row{
+  display:flex;flex-wrap:wrap;gap:6px;
+  padding:10px 14px;
+  border-top:1px solid var(--border);
+  background:rgba(0,0,0,0.15);
+}
+.dg-tag{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:20px;
+  font-size:11px;font-weight:700;
+  border:1px solid;cursor:pointer;text-decoration:none;
+  transition:all 0.2s;
+}
+.dg-tag:hover{transform:translateY(-2px);opacity:0.85;}
+.duchy-note{font-size:10px;color:#475569;text-align:center;padding:8px 14px;border-top:1px solid var(--border);}
+
+/* ===== GUILD CARDS ===== */
+.guilds-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.guild-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:all 0.25s;
+  position:relative;
+  animation:fadeUp 0.5s ease both;
+}
+.guild-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.5);}
+.guild-card-glow{
+  position:absolute;top:0;left:0;right:0;height:70px;
+  opacity:0.12;transition:opacity 0.25s;pointer-events:none;
+}
+.guild-card:hover .guild-card-glow{opacity:0.22;}
+.guild-card-top{
+  display:flex;flex-direction:column;align-items:center;
+  padding:16px 10px 10px;text-align:center;
+  position:relative;z-index:1;
+}
+.guild-card-emblem{
+  font-size:30px;margin-bottom:6px;
+  filter:drop-shadow(0 0 12px var(--gc));
+  animation:emblemFloat 3s ease-in-out infinite;
+}
+@keyframes emblemFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+.guild-card-name{font-size:13px;font-weight:900;color:#fff;letter-spacing:1px;}
+.guild-card-en{font-size:8px;color:var(--muted);letter-spacing:2px;margin-top:2px;}
+.guild-card-admiral{font-size:9px;margin-top:5px;display:flex;align-items:center;gap:4px;}
+.gca-label{color:var(--muted);}
+.gca-name{font-weight:700;}
+.guild-card-duchy{font-size:9px;color:var(--muted);margin-top:2px;}
+/* stats row inside card */
+.guild-card-stats{
+  display:flex;border-top:1px solid var(--border);
+}
+.gcs-item{
+  flex:1;padding:8px 4px;text-align:center;
+  border-left:1px solid var(--border);
+}
+.gcs-item:last-child{border-left:none;}
+.gcs-val{font-size:13px;font-weight:900;}
+.gcs-lbl{font-size:8px;color:var(--muted);margin-top:2px;}
+.guild-card-footer{
+  display:flex;
+  border-top:1px solid var(--border);
+}
+.guild-page-btn{
+  flex:1;padding:9px;text-align:center;
+  font-size:10px;font-weight:700;
+  text-decoration:none;font-family:'Cairo',sans-serif;
+  transition:all 0.2s;display:block;
+}
+.guild-page-btn:hover{opacity:0.8;}
+
+/* guild colors */
+.gc-zoldyck{--gc:#3B82F6;}
+.gc-shibuya{--gc:#8B5CF6;}
+.gc-konoha{--gc:#10B981;}
+.gc-clover{--gc:#22C55E;}
+.gc-atlas{--gc:#F59E0B;}
+.gc-risky{--gc:#991B1B;}
+.gc-sayrs{--gc:#A855F7;}
+.gc-skortz{--gc:#EF4444;}
+
+/* ===== LAWS ===== */
+.law-block{margin-bottom:16px;}
+.law-title{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.law-item{display:flex;gap:10px;padding:7px 8px;border-radius:8px;margin-bottom:3px;font-size:11px;color:var(--dim);line-height:1.6;border:1px solid transparent;transition:all 0.2s;}
+.law-item:hover{background:var(--card);border-color:var(--border);color:#CBD5E1;}
+.law-num{min-width:20px;height:20px;border-radius:50%;background:rgba(220,38,38,0.1);color:var(--red);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.law-note{padding:10px;background:rgba(220,38,38,0.05);border:1px solid rgba(220,38,38,0.12);border-radius:10px;font-size:10px;color:var(--dim);text-align:center;line-height:1.8;}
+
+/* ===== LEARN PAGE ===== */
+.learn-page{display:none;padding:20px 16px 30px;animation:fadeUp 0.4s ease both;}
+.learn-page.active{display:block;}
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 16px;border-radius:20px;
+  background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);
+  color:var(--red);font-size:11px;font-weight:700;
+  cursor:pointer;font-family:'Cairo',sans-serif;margin-bottom:16px;
+  transition:all 0.2s;
+}
+.back-btn:hover{background:rgba(220,38,38,0.14);}
+.learn-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;margin-bottom:10px;
+}
+.lc-head{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;background:rgba(0,0,0,0.2);
+  border-bottom:1px solid var(--border);
+}
+.lc-icon{font-size:20px;}
+.lc-title{font-size:13px;font-weight:700;color:var(--text);}
+.lc-sub{font-size:9px;color:var(--muted);margin-top:1px;}
+.lc-body{padding:12px 14px;}
+.li{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:11px;}
+.li:last-child{border-bottom:none;}
+.li-l{color:var(--dim);}
+.li-v{color:var(--gold);font-weight:700;}
+.li-v.red{color:#EF4444;}
+.lc-note{font-size:10px;color:#475569;margin-top:8px;text-align:center;line-height:1.8;}
+
+/* ===== ANIMS ===== */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+.wano-link-row{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:12px 14px;
+  text-decoration:none;transition:all 0.2s;
+}
+.wano-link-row:hover{border-color:rgba(184,134,11,0.35);transform:translateX(-3px);background:var(--card2);}
+.wlr-icon{font-size:22px;min-width:30px;text-align:center;}
+.wlr-info{flex:1;}
+.wlr-name{font-size:13px;font-weight:700;color:var(--text);}
+.wlr-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.wlr-arrow{font-size:14px;color:var(--gold);}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="ambient amb1"></div>
+<div class="ambient amb2"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">إمبراطورية سان ☀️ • المملكة الكبرى</div>
+    <div class="hero-gate">⛩</div>
+    <div class="hero-title">مملكة وانو</div>
+    <div class="hero-en">WANO KINGDOM • الإمبراطورية الرقمية</div>
+    <div class="hero-badges">
+      <div class="hbadge">⚔️ شرف</div>
+      <div class="hbadge">🔥 قوة</div>
+      <div class="hbadge">🩸 ولاء</div>
+    </div>
+    <div class="hero-div">
+      <div class="hdline"></div>
+      <div class="hdicon">⛩</div>
+      <div class="hdline r"></div>
+    </div>
+  </div>
+
+  <!-- LEARN BTN -->
+  <div class="learn-wrap">
+    <button class="learn-btn" onclick="showLearn()">
+      <span class="learn-btn-icon">📚</span>
+      مركز التعلم — النشر • الفعاليات • النقاط
+    </button>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('imperial',this)">👑 القيادة</button>
+    <button class="tab" onclick="switchTab('army',this)">🎖️ الجيش</button>
+    <button class="tab" onclick="switchTab('duchies',this)">🏰 الدوقيات</button>
+    <button class="tab" onclick="switchTab('guilds',this)">⚓ النقابات</button>
+    <button class="tab" onclick="switchTab('laws',this)">📜 القوانين</button>
+  </div>
+
+  <!-- ===== IMPERIAL ===== -->
+  <div class="sec active" id="sec-imperial">
+    <div class="gbar"></div>
+
+    <div class="tier-label">⚜️ رتب الإمبراطورية</div>
+    <div class="ranks">
+      <div class="rank-row c-emperor">
+        <div class="ri">☀️</div>
+        <div class="rinfo"><div class="rname">الإمبراطور</div><div class="rholder">أشيلاد</div></div>
+        <div><div class="rtag tag-imp">إمبراطوري</div><div class="rdesc">قائد سان</div></div>
+      </div>
+      <div class="rank-row c-vicemp">
+        <div class="ri">🌟</div>
+        <div class="rinfo"><div class="rname">نائب الإمبراطور</div><div class="rholder">ايزن</div></div>
+        <div><div class="rtag tag-imp">إمبراطوري</div><div class="rdesc">يمثل الإمبراطور</div></div>
+      </div>
+    </div>
+
+    <div class="tier-label">⛩ رتب المؤسسين</div>
+    <div class="ranks">
+      <div class="rank-row c-founder">
+        <div class="ri">👑</div>
+        <div class="rinfo"><div class="rname">المؤسسة</div><div class="rholder">نامي</div></div>
+        <div><div class="rtag tag-fnd">مؤسس</div><div class="rdesc">قيادة وانو العليا</div></div>
+      </div>
+      <div class="rank-row c-vfound">
+        <div class="ri">🏯</div>
+        <div class="rinfo"><div class="rname">نائب المؤسس</div><div class="rholder">يامي</div></div>
+        <div><div class="rtag tag-fnd">مؤسس</div><div class="rdesc">مساعد القيادة</div></div>
+      </div>
+      <div class="rank-row c-marquis">
+        <div class="ri">⚜️</div>
+        <div class="rinfo"><div class="rname">ماركيز</div><div class="rholder">تاكامورا</div></div>
+        <div><div class="rtag tag-fnd">مؤسس</div><div class="rdesc">قيادة المملكة</div></div>
+      </div>
+      <div class="rank-row c-vmarq">
+        <div class="ri">🔰</div>
+        <div class="rinfo"><div class="rname">نائب ماركيز</div><div class="rholder">ناغي | المناضل</div></div>
+        <div><div class="rtag tag-fnd">مؤسس</div><div class="rdesc">مساعد الماركيز</div></div>
+      </div>
+      <div class="rank-row c-advisor">
+        <div class="ri">🧠</div>
+        <div class="rinfo"><div class="rname">المستشار</div><div class="rholder">يوهان</div></div>
+        <div><div class="rtag tag-fnd">مؤسس</div><div class="rdesc">مجلس القرار</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ARMY ===== -->
+  <div class="sec" id="sec-army">
+    <div class="gbar"></div>
+    <div class="army-box">🎯 <strong>مهمة الجيش الملكي:</strong> دعم النقابات الضعيفة، الحفاظ على النظام، والتدخل لمساعدة أي نقابة تحت راية وانو.</div>
+    <div class="sec-head">🎖️ هيكل الجيش الملكي</div>
+    <div class="ranks">
+      <div class="rank-row c-prince">
+        <div class="ri">👑</div>
+        <div class="rinfo"><div class="rname">أمير ملكي</div><div class="rholder">كيلوا</div></div>
+        <div><div class="rtag tag-arm">قيادة</div><div class="rdesc">قائد الجيش</div></div>
+      </div>
+      <div class="rank-row c-lowa">
+        <div class="ri">🦅</div>
+        <div class="rinfo"><div class="rname">لواء ملكي</div><div class="rholder">ماو ماو</div></div>
+        <div><div class="rtag tag-arm">ضباط</div><div class="rdesc">— يحدد لاحقاً —</div></div>
+      </div>
+      <div class="rank-row c-aqid">
+        <div class="ri">⚔️</div>
+        <div class="rinfo"><div class="rname">عقيد ملكي</div><div class="rholder">ميكاسا</div></div>
+        <div><div class="rtag tag-arm">ضباط</div><div class="rdesc">— يحدد لاحقاً —</div></div>
+      </div>
+      <div class="rank-row c-naqib">
+        <div class="ri">🎯</div>
+        <div class="rinfo"><div class="rname">نقيب ملكي</div><div class="rholder">ميليوداس</div></div>
+        <div><div class="rtag tag-arm">ضباط</div><div class="rdesc">— يحدد لاحقاً —</div></div>
+      </div>
+      <div class="rank-row c-jundi">
+        <div class="ri">🛡️</div>
+        <div class="rinfo"><div class="rname">جندي ملكي</div><div class="rholder">— غير محدد —</div></div>
+        <div><div class="rtag tag-arm">أفراد</div><div class="rdesc">— يحدد لاحقاً —</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DUCHIES ===== -->
+  <div class="sec" id="sec-duchies">
+    <div class="gbar"></div>
+    <div class="sec-head">🏰 دوقيات المملكة</div>
+    <div class="duchies">
+
+      <!-- HELIX -->
+      <div class="duchy" style="border-color:rgba(99,102,241,0.25);">
+        <div class="duchy-top">
+          <div class="duchy-icon" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.2);">🌀</div>
+          <div class="duchy-info">
+            <div class="duchy-name">دوقية هيليكس</div>
+            <div class="duchy-sub">HELIX DUCHY • نقابتان</div>
+          </div>
+        </div>
+        <div class="duchy-leads">
+          <div class="dlead">👑 <span class="dlead-role">الدوق:</span> <span class="dlead-name">توغا</span></div>
+          <div class="dlead">⚖️ <span class="dlead-role">النائب:</span> <span class="dlead-name">كي اوزوكي</span></div>
+        </div>
+        <div class="duchy-guilds-row">
+          <a href="zoldyck.html" class="dg-tag" style="color:#3B82F6;border-color:rgba(59,130,246,0.3);background:rgba(59,130,246,0.08);">⚡ زولديك</a>
+          <a href="sayrs.html" class="dg-tag" style="color:#A855F7;border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.08);">🪶 سايرس</a>
+        </div>
+      </div>
+
+      <!-- EVEREST -->
+      <div class="duchy" style="border-color:rgba(6,182,212,0.25);">
+        <div class="duchy-top">
+          <div class="duchy-icon" style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);">❄️</div>
+          <div class="duchy-info">
+            <div class="duchy-name">دوقية إيفريست</div>
+            <div class="duchy-sub">EVEREST DUCHY • أربع نقابات</div>
+          </div>
+        </div>
+        <div class="duchy-leads">
+          <div class="dlead">👑 <span class="dlead-role">الدوق:</span> <span class="dlead-name">زيرو</span></div>
+          <div class="dlead">⚖️ <span class="dlead-role">النائب:</span> <span class="dlead-name">كينشين</span></div>
+        </div>
+        <div class="duchy-guilds-row">
+          <a href="shibuya.html" class="dg-tag" style="color:#8B5CF6;border-color:rgba(139,92,246,0.3);background:rgba(139,92,246,0.08);">⚖️ شيبويا</a>
+          <a href="clover.html" class="dg-tag" style="color:#22C55E;border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.08);">☘️ كلوفر</a>
+          <a href="skortz.html" class="dg-tag" style="color:#EF4444;border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.08);">☄️ سكورتز</a>
+          <a href="konoha.html" class="dg-tag" style="color:#10B981;border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.08);">🍃 كونوها</a>
+        </div>
+      </div>
+
+      <!-- INDEPENDENT -->
+      <div class="duchy" style="border-color:rgba(75,85,99,0.3);">
+        <div class="duchy-top">
+          <div class="duchy-icon" style="background:rgba(75,85,99,0.1);border:1px solid rgba(75,85,99,0.2);">🏴</div>
+          <div class="duchy-info">
+            <div class="duchy-name">نقابات مستقلة</div>
+            <div class="duchy-sub">ترتبط مباشرة بقيادة المملكة</div>
+          </div>
+        </div>
+        <div class="duchy-guilds-row">
+          <a href="risky.html" class="dg-tag" style="color:#DC2626;border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.08);">🍷 ريسكي</a>
+          <a href="atlas.html" class="dg-tag" style="color:#F59E0B;border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.08);">👑 أطلس</a>
+        </div>
+        <div class="duchy-note">⚠️ بدون دوق حالياً</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== GUILDS ===== -->
+  <div class="sec" id="sec-guilds">
+    <div class="gbar"></div>
+    <div class="sec-head">⛩ نقابات المملكة</div>
+    <div class="guilds-grid">
+
+      <!-- ZOLDYCK -->
+      <div class="guild-card gc-zoldyck" style="border-color:rgba(59,130,246,0.25);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#3B82F6,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#3B82F6;">⚡</div>
+          <div class="guild-card-name">زولديك</div>
+          <div class="guild-card-en">ZOLDYCK</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#3B82F6;">شيزوكو</span></div>
+          <div class="guild-card-duchy">🌀 هيليكس</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#3B82F6;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="zoldyck.html" class="guild-page-btn" style="color:#3B82F6;background:rgba(59,130,246,0.08);border-top:1px solid rgba(59,130,246,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+      <!-- SHIBUYA -->
+      <div class="guild-card gc-shibuya" style="border-color:rgba(139,92,246,0.25);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#8B5CF6,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#8B5CF6;">⚖️</div>
+          <div class="guild-card-name">شيبويا</div>
+          <div class="guild-card-en">SHIBUYA</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#8B5CF6;">الوكا</span></div>
+          <div class="guild-card-duchy">❄️ إيفريست</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#8B5CF6;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="shibuya.html" class="guild-page-btn" style="color:#8B5CF6;background:rgba(139,92,246,0.08);border-top:1px solid rgba(139,92,246,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+      <!-- KONOHA -->
+      <div class="guild-card gc-konoha" style="border-color:rgba(16,185,129,0.25);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#10B981,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#10B981;">🍃</div>
+          <div class="guild-card-name">كونوها</div>
+          <div class="guild-card-en">KONOHA</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#10B981;">زينتسو</span></div>
+          <div class="guild-card-duchy">❄️ إيفريست</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#10B981;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="konoha.html" class="guild-page-btn" style="color:#10B981;background:rgba(16,185,129,0.08);border-top:1px solid rgba(16,185,129,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+      <!-- CLOVER -->
+      <div class="guild-card gc-clover" style="border-color:rgba(34,197,94,0.25);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#22C55E,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#22C55E;">☘️</div>
+          <div class="guild-card-name">كلوفر</div>
+          <div class="guild-card-en">CLOVER</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#22C55E;">سونغ</span></div>
+          <div class="guild-card-duchy">❄️ إيفريست</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#22C55E;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="clover.html" class="guild-page-btn" style="color:#22C55E;background:rgba(34,197,94,0.08);border-top:1px solid rgba(34,197,94,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+      <!-- ATLAS -->
+      <div class="guild-card gc-atlas" style="border-color:rgba(245,158,11,0.25);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#F59E0B,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#F59E0B;">👑</div>
+          <div class="guild-card-name">أطلس</div>
+          <div class="guild-card-en">ATLAS</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#F59E0B;">واكاسا</span></div>
+          <div class="guild-card-duchy">🏴 مستقلة</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="atlas.html" class="guild-page-btn" style="color:#F59E0B;background:rgba(245,158,11,0.08);border-top:1px solid rgba(245,158,11,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+      <!-- RISKY -->
+      <div class="guild-card gc-risky" style="border-color:rgba(153,27,27,0.35);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#991B1B,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#DC2626;">🍷</div>
+          <div class="guild-card-name">ريسكي</div>
+          <div class="guild-card-en">RISKY</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#DC2626;">سونغ</span></div>
+          <div class="guild-card-duchy">🏴 مستقلة</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#DC2626;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="risky.html" class="guild-page-btn" style="color:#DC2626;background:rgba(220,38,38,0.08);border-top:1px solid rgba(220,38,38,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+      <!-- SAYRS -->
+      <div class="guild-card gc-sayrs" style="border-color:rgba(168,85,247,0.25);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#A855F7,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#A855F7;">🪶</div>
+          <div class="guild-card-name">سايرس</div>
+          <div class="guild-card-en">SAYRS</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#A855F7;">جوتارو</span></div>
+          <div class="guild-card-duchy">🌀 هيليكس</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#A855F7;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="sayrs.html" class="guild-page-btn" style="color:#A855F7;background:rgba(168,85,247,0.08);border-top:1px solid rgba(168,85,247,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+      <!-- SKORTZ -->
+      <div class="guild-card gc-skortz" style="border-color:rgba(239,68,68,0.25);">
+        <div class="guild-card-glow" style="background:linear-gradient(180deg,#EF4444,transparent);"></div>
+        <div class="guild-card-top">
+          <div class="guild-card-emblem" style="--gc:#EF4444;">☄️</div>
+          <div class="guild-card-name">سكورتز</div>
+          <div class="guild-card-en">SKORTZ</div>
+          <div class="guild-card-admiral"><span class="gca-label">أدميرال:</span><span class="gca-name" style="color:#EF4444;">المناضل</span></div>
+          <div class="guild-card-duchy">❄️ إيفريست</div>
+        </div>
+        <div class="guild-card-stats">
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#EF4444;">—</div>
+            <div class="gcs-lbl">مشرف</div>
+          </div>
+          <div class="gcs-item">
+            <div class="gcs-val" style="color:#F59E0B;">—</div>
+            <div class="gcs-lbl">طرف</div>
+          </div>
+        </div>
+        <div class="guild-card-footer">
+          <a href="skortz.html" class="guild-page-btn" style="color:#EF4444;background:rgba(239,68,68,0.08);border-top:1px solid rgba(239,68,68,0.2);">📄 صفحة النقابة</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== LAWS ===== -->
+  <div class="sec" id="sec-laws">
+    <div class="gbar"></div>
+    <div class="law-block">
+      <div class="law-title">📋 قوانين المشرفين الإداريين</div>
+      <div class="law-item"><div class="law-num">①</div><div>يُمنع سحب إشراف أي مشرف إلا من الأدميرال بنفسه، إلا في حالات الضرورة</div></div>
+      <div class="law-item"><div class="law-num">②</div><div>يُمنع إعطاء إنذار لمشرف مساوٍ لرتبتك أو أعلى — يجب إبلاغ الأدميرال</div></div>
+      <div class="law-item"><div class="law-num">③</div><div>يُمنع إقفال شات النقابة إلا الأدميرال أو عند حدوث تخريب أو مشاكل</div></div>
+      <div class="law-item"><div class="law-num">④</div><div>يُمنع الخروج والدخول متى شئت — ستُعفى فوراً. يُمنع التهرم وطلب إعفائك</div></div>
+      <div class="law-item"><div class="law-num">⑤</div><div>يُمنع التكبر وتقليل احترام الرتب الأقل، واجب احترام الرتب الأعلى والاستماع لهم</div></div>
+      <div class="law-item"><div class="law-num">⑥</div><div>يُمنع التلاعب بالإشرافات وحذف الرسائل والطرد إلا بإذن أو دليل كافٍ</div></div>
+      <div class="law-item"><div class="law-num">⑦</div><div>يُمنع التغيب عن النقابة ليومين بدون إخبار الأدميرال والسبب</div></div>
+      <div class="law-item"><div class="law-num">⑧</div><div>تُمنع العنصرية بكل أشكالها — اللون أو العرق أو الدين أو الشكل أو البلد</div></div>
+      <div class="law-item"><div class="law-num">⑨</div><div>يُمنع طلب النقل إلا إذا أصبح وجود المشرف مصدر ضرر على النقابة</div></div>
+      <div class="law-item"><div class="law-num">⑩</div><div>يُمنع نشر الواتساب — عقاب إداري وإن تكرر: إعفاء ثم طرد</div></div>
+      <div class="law-item"><div class="law-num">⑪</div><div>يُمنع دخول الفروع الخارجية — نقابات وجروبات ليس لها صلة بالإمبراطورية</div></div>
+      <div class="law-item"><div class="law-num">⑫</div><div>يُمنع إزعاج الرتب العليا ومنشنتهم بلا داعٍ — توجه لنواب الأدميرال أولاً</div></div>
+      <div class="law-item"><div class="law-num">⑬</div><div>يُمنع تغيير وصف وصور الفروع بدون سبب مذكور</div></div>
+      <div class="law-item"><div class="law-num">⑭</div><div>يُمنع طلب إشراف وإزعاج المشرفين — لكل رتبة صلاحياتها في الفروع</div></div>
+    </div>
+    <div class="law-note">📌 قوانين الأعضاء موجودة داخل صفحة كل نقابة</div>
+  </div>
+
+
+  <!-- ===== LINKS ===== -->
+  <div class="sec" id="sec-links">
+    <div class="gbar"></div>
+    <div class="sec-head">🔗 فروع مملكة وانو الرسمية</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <a href="https://chat.whatsapp.com/HQySsIGIlxJEI1ekwZwU0q" target="_blank" class="wano-link-row">
+        <div class="wlr-icon">📰</div>
+        <div class="wlr-info"><div class="wlr-name">صحيفة وانو</div><div class="wlr-sub">أخبار ومستجدات المملكة</div></div>
+        <div class="wlr-arrow">←</div>
+      </a>
+      <a href="https://chat.whatsapp.com/CcrDV0RZBQdBAYeyBSGWvO" target="_blank" class="wano-link-row">
+        <div class="wlr-icon">🕋</div>
+        <div class="wlr-info"><div class="wlr-name">فرع الأذكار</div><div class="wlr-sub">ذكر وتسبيح يومي</div></div>
+        <div class="wlr-arrow">←</div>
+      </a>
+      <a href="https://chat.whatsapp.com/GnuJcjS30Uu7J64kJD4mpv" target="_blank" class="wano-link-row">
+        <div class="wlr-icon">🆚</div>
+        <div class="wlr-info"><div class="wlr-name">فرع المقابلات</div><div class="wlr-sub">مقابلات وتحديات المملكة</div></div>
+        <div class="wlr-arrow">←</div>
+      </a>
+      <a href="https://chat.whatsapp.com/GDqET2EcMA96YiCmvaCtTw" target="_blank" class="wano-link-row">
+        <div class="wlr-icon">📚</div>
+        <div class="wlr-info"><div class="wlr-name">فرع المكتبة</div><div class="wlr-sub">محتوى تعليمي ومفيد</div></div>
+        <div class="wlr-arrow">←</div>
+      </a>
+      <a href="https://chat.whatsapp.com/FNpsFOBHxZC0uAhHyB6lKa" target="_blank" class="wano-link-row">
+        <div class="wlr-icon">🏷️</div>
+        <div class="wlr-info"><div class="wlr-name">فرع الملصقات</div><div class="wlr-sub">ستيكرات وانو الحصرية</div></div>
+        <div class="wlr-arrow">←</div>
+      </a>
+      <a href="https://chat.whatsapp.com/Joc5MtFDXMa9mW6hN92R6Q" target="_blank" class="wano-link-row">
+        <div class="wlr-icon">📡</div>
+        <div class="wlr-info"><div class="wlr-name">فرع النيوز</div><div class="wlr-sub">آخر أخبار الأنمي</div></div>
+        <div class="wlr-arrow">←</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== LEARN PAGE ===== -->
+  <div class="learn-page" id="learn-page">
+    <button class="back-btn" onclick="hideLearn()">← رجوع للمملكة</button>
+    <div class="sec-head">📚 مركز التعلم • وانو</div>
+
+    <div class="learn-card">
+      <div class="lc-head"><div class="lc-icon">🎰</div><div><div class="lc-title">الفعاليات</div><div class="lc-sub">نقاط الترقية حسب حجم الفعالية</div></div></div>
+      <div class="lc-body">
+        <div class="li"><span class="li-l">🟢 فعالية صغيرة (S)</span><span class="li-v">5 نقاط</span></div>
+        <div class="li"><span class="li-l">🟡 فعالية متوسطة (M)</span><span class="li-v">12 نقطة</span></div>
+        <div class="li"><span class="li-l">🔴 فعالية كبيرة (L)</span><span class="li-v">30 نقطة</span></div>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-head"><div class="lc-icon">📲</div><div><div class="lc-title">الاستقبال والنشر</div><div class="lc-sub">كيف تجيب أعضاء وتستقبلهم</div></div></div>
+      <div class="lc-body">
+        <div class="li"><span class="li-l">دخول شخص من طرفك</span><span class="li-v">30 نقطة</span></div>
+        <div class="li"><span class="li-l">استقبال عضو (ترحيب + وورك)</span><span class="li-v">10 نقاط</span></div>
+        <div class="lc-note">💡 انشر في أكثر من منصة عشان تجيب أكبر عدد من الأعضاء</div>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-head"><div class="lc-icon">📊</div><div><div class="lc-title">التفاعل</div><div class="lc-sub">نقاط حسب عدد الرسائل</div></div></div>
+      <div class="lc-body">
+        <div class="li"><span class="li-l">250 رسالة</span><span class="li-v">25 نقطة</span></div>
+        <div class="li"><span class="li-l">500 رسالة</span><span class="li-v">50 نقطة</span></div>
+        <div class="li"><span class="li-l">1,000 رسالة</span><span class="li-v">100 نقطة</span></div>
+        <div class="li"><span class="li-l">1,500 رسالة</span><span class="li-v">150 نقطة</span></div>
+        <div class="li"><span class="li-l">2,000 رسالة</span><span class="li-v">200 نقطة</span></div>
+        <div class="li"><span class="li-l">2,500 رسالة</span><span class="li-v">250 نقطة</span></div>
+        <div class="li"><span class="li-l">3,000 رسالة</span><span class="li-v">300 نقطة</span></div>
+        <div class="li"><span class="li-l">كل 500 رسالة بعد ذلك</span><span class="li-v">50 نقطة</span></div>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-head"><div class="lc-icon">☀️</div><div><div class="lc-title">المكافآت الأسبوعية</div></div></div>
+      <div class="lc-body">
+        <div class="li"><span class="li-l">🏆 أفضل متفاعل</span><span class="li-v">500 نقطة</span></div>
+        <div class="li"><span class="li-l">📢 أفضل ناشر (25 شخص+)</span><span class="li-v">500 نقطة</span></div>
+        <div class="li"><span class="li-l">⭐ أفضل مشرف</span><span class="li-v">500 نقطة</span></div>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-head"><div class="lc-icon">↘️</div><div><div class="lc-title">الخصومات</div></div></div>
+      <div class="lc-body">
+        <div class="li"><span class="li-l">أخذ إنذار</span><span class="li-v red">25- نقطة</span></div>
+        <div class="li"><span class="li-l">طرد تأديبي / إنذار إداري</span><span class="li-v red">100- نقطة</span></div>
+        <div class="li"><span class="li-l">طرد مؤقت / خروج بدون إذن</span><span class="li-v red">200- نقطة</span></div>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-head"><div class="lc-icon">📌</div><div><div class="lc-title">ملاحظات</div></div></div>
+      <div class="lc-body">
+        <div class="li"><span class="li-l">🔄 تصفير البنك</span><span class="li-v">كل 4 أسابيع</span></div>
+        <div class="li"><span class="li-l">👑 الأدميرال يرقي بدون شروط</span><span class="li-v">استثنائي</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ===== PARTICLES =====
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+class P{
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*W;this.y=Math.random()*H;
+    this.r=Math.random()*1.2+0.3;
+    this.vx=(Math.random()-0.5)*0.3;this.vy=-Math.random()*0.4-0.1;
+    this.life=0;this.maxLife=Math.random()*200+100;
+    this.color=Math.random()<0.6?'rgba(220,38,38,':'rgba(245,158,11,';
+  }
+  draw(){
+    const p=this.life/this.maxLife;
+    const a=p<0.2?p/0.2:p>0.8?(1-p)/0.2:1;
+    ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=this.color+(a*0.5)+')';ctx.fill();
+    this.x+=this.vx;this.y+=this.vy;this.life++;
+    if(this.life>this.maxLife)this.reset();
+  }
+}
+for(let i=0;i<60;i++){const p=new P();p.life=Math.random()*p.maxLife;particles.push(p);}
+function loop(){ctx.clearRect(0,0,W,H);particles.forEach(p=>p.draw());requestAnimationFrame(loop);}
+loop();
+
+// ===== TABS =====
+function switchTab(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('learn-page').classList.remove('active');
+  document.querySelector('.tabs').style.display='flex';
+  document.querySelector('.learn-wrap').style.display='flex';
+}
+function showLearn(){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.getElementById('learn-page').classList.add('active');
+  document.querySelector('.tabs').style.display='none';
+  document.querySelector('.learn-wrap').style.display='none';
+}
+function hideLearn(){
+  document.getElementById('learn-page').classList.remove('active');
+  document.getElementById('sec-imperial').classList.add('active');
+  document.querySelector('.tabs').style.display='flex';
+  document.querySelector('.learn-wrap').style.display='flex';
+  document.querySelectorAll('.tab')[0].classList.add('active');
+}
+</script>
+</body>
+</html>
